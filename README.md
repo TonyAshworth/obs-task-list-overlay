@@ -8,6 +8,8 @@ An HTML and Node.js-based task list overlay for OBS.
 
 I was heavily inspired by another streamers use of an onscreen checklist that allowed them to track progress towards each stream's goals.  These were usually specific to whatever game they were playing at the time and this felt incredibly powerful to keep chat engaged on what I was doing that evening.
 
+Huge thanks to [PhishyLive](https://www.twitch.tv/phishylive) & [LaurynKHD](https://www.twitch.tv/laurynkhd) who inspired this adventure.
+
 I saw another repo that had the bones of what I wanted but not the same result so I forked the repo ( https://github.com/geerlingguy/obs-task-list-overlay/ ) and within an hour had exactly what I wanted.
 
 This project is still very much a WIP.

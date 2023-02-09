@@ -27,7 +27,6 @@ app.get('/config', function(req, res){
 });
 
 app.get('/task-toggle', function(req, res){
-    // Access the provided 'page' and 'limt' query parameters
     let itemIndex = req.query.item;
     let itemToUpdate = config.task_list_items[itemIndex];
     if (itemToUpdate.status == "not-done") {
