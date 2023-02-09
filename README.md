@@ -1,32 +1,38 @@
 # OBS Task List / Checklist Overlay
 
-[![CI](https://github.com/geerlingguy/obs-task-list-overlay/actions/workflows/ci.yml/badge.svg?branch=master&event=push)](https://github.com/geerlingguy/obs-task-list-overlay/actions/workflows/ci.yml)
+[![CI](https://github.com/tonyashworth/obs-task-list-overlay/actions/workflows/ci.yml/badge.svg?branch=master&event=push)](https://github.com/tonyashworth/obs-task-list-overlay/actions/workflows/ci.yml)
 
 An HTML and Node.js-based task list overlay for OBS.
 
-<img src="https://raw.githubusercontent.com/geerlingguy/obs-task-list-overlay/master/example.jpg" width="700" height="394" alt="OBS Task List Overlay Example with Jeff Geerling" />
+<img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/example.png" width="700" height="394" alt="OBS Task List Overlay Example with Tony Ashworth" />
 
-I was frustrated with the lack of plugins that added a simple task list (with current task highlighted) to OBS, so I built this solution, which relies on OBS' 'Browser' source.
+I was heavily inspired by another streamers use of an onscreen checklist that allowed them to track progress towards each stream's goals.  These were usually specific to whatever game they were playing at the time and this felt incredibly powerful to keep chat engaged on what I was doing that evening.
+
+I saw another repo that had the bones of what I wanted but not the same result so I forked the repo ( https://github.com/geerlingguy/obs-task-list-overlay/ ) and within an hour had exactly what I wanted.
+
+This project is still very much a WIP.
+
+What's different between my project and the one I forked it from?
+
+  1. I treat each task seperately, you could potentially do them out of order, the original was more focused on a sequence of tasks to be done in order.
+  2. I removed the title / header as it wasn't necessary for my content.
+  3. I added checkboxes to each item to allow you to see on screen which tasks are done vs not.
+
+OK onto how does it work.
 
 There are three components to this project:
 
-  1. An HTML file (`index.html`), which lays out a stream title and task list/current status overlay.
-  2. A Node.js HTTP server (`server.js`), which serves the HTML file to OBS, and allows you to control which step is highlighted in the display.
+  1. An HTML file (`index.html`), which lays out the task list/current status overlay.
+  2. A Node.js HTTP server (`server.js`), which serves the HTML file to OBS, and allows you to update individual task statuses with a simple http get call.
   3. A config file (`config.json`), which provides the server settings, title settings, and task list content.
 
-I'm using this for a technical live stream, where I have a set list of milestones, and I want to indicate to viewers which task is currently being worked on.
-
-To see it in practice, check out my [16 Drives, 1 Pi](https://www.youtube.com/watch?v=afnszOuWt74) livestream.
-
-The design is inspired by the [NASASpaceflight](https://www.youtube.com/c/NASASpaceflightVideos) live stream status overlay, which I enjoy for it's simplicity and elegance.
+To see it in practice, check out this [solo DMZ](https://www.twitch.tv/videos/1732607502) livestream.
 
 ## Customizing the overlay
 
 All the styling for the overlay is embedded in the `index.html` file. If you want to tweak the appearance, it should be easy enough if you know basic CSS + JS.
 
 To set a title and set up the list of tasks, copy the `example.config.json` file to `config.json`, and then edit the file to add in the settings you would like.
-
-If you change the length of the stream title (`task_list_title`), you may also need to adjust the `task_list_title_width` to match the new width of the title text.
 
 ## Node.js App setup
 
@@ -83,29 +89,30 @@ The port number after the colon would be the port configured in `config.json`.
 
 ## Advancing to the next step
 
-To control which task is highlighted, there are two paths the Node.js app responds to:
+To update a task's status, there is a route the Node.js app responds to:
 
-```
-/up - Increase the current step by 1
-/down - Decrease the current step by 1
-```
+The `/task-toggle` endpoint needs the `item` query parameter to know which task you want to toggle.
 
-You can also check what the current step is by requesting `/current`.
+Remember the task list is a 0 based list so to change the status of the first task you call it like this : `/task-toggle?item=1`.
 
-When you have the browser source open, OBS will change the highlighted step within one second of you requesting `localhost/up` or `localhost/down`.
+You can also toggle the task back to an incomplete state by calling it again.
 
-The count can increase above the maximum number of items in your list, or below `1`, so you are responsible for making sure you don't go crazy calling `/up` or `/down` too many times :)
+You can check what the current task list values is by requesting `/current`.
+
+When you have the browser source open, OBS will change the highlighted step within one second of you calling the  `/task-toggle` endpoint.
 
 ### Using an Elgato Stream Deck to advance steps
 
-I use a Stream Deck to help with my live streaming, and I've created two buttons for this overlay, a 'back' (`/down`) and 'forward' (`/up`) key.
+I use a Stream Deck to help with my live streaming, and I've created four buttons for this overlay.
 
-When I press the back button, the task list goes back one step.
+<img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/streamdeck-buttons.png" width="480" height="166" alt="example of obs buttons setup" />
 
-When I press the forward button, the task list goes forward one step.
+<img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/streamdeck-example.png" width="764" height="312" alt="example of obs button config" />
+
+When I press a specific task button, that task updates on the next `/current` call.
 
 To add a hotkey in the 'Configure Stream Deck' app, drag a 'Website' button from the 'System' section into one of the slots on your Stream Deck.
 
-Then set the URL to `http://localhost/up` (or `/down`), and check 'Access in background'.
+Then set the URL to `http://localhost/task-toggle?item=0` (or whatever task item you want set), and check 'Access in background'.
 
-Now, when you press that key, the appropriate URL is called silently and the on-screen task list should advance or go back a step depending on the button you pressed. Magic!
+Now, when you press that key, the appropriate URL is called silently and the on-screen task list should update depending on the button you pressed. Magic!
