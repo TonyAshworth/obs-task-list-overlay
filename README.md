@@ -6,6 +6,8 @@ An HTML and Node.js-based task list overlay for OBS.
 
 <img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/example.png" width="700" height="394" alt="OBS Task List Overlay Example with Tony Ashworth" />
 
+<img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/small-example.png" alt="OBS Task List Overlay Small Example" />
+
 I was heavily inspired by another streamers use of an onscreen checklist that allowed them to track progress towards each stream's goals.  These were usually specific to whatever game they were playing at the time and this felt incredibly powerful to keep chat engaged on what I was doing that evening.
 
 Huge thanks to [PhishyLive](https://www.twitch.tv/phishylive) & [LaurynKHD](https://www.twitch.tv/laurynkhd) who inspired this adventure.
@@ -107,9 +109,9 @@ When you have the browser source open, OBS will change the highlighted step with
 
 I use a Stream Deck to help with my live streaming, and I've created four buttons for this overlay.
 
-<img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/streamdeck-buttons.png" width="480" height="166" alt="example of obs buttons setup" />
+<img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/streamdeck-buttons.png" alt="example of obs buttons setup" />
 
-<img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/streamdeck-example.png" width="764" height="312" alt="example of obs button config" />
+<img src="https://raw.githubusercontent.com/tonyashworth/obs-task-list-overlay/master/streamdeck-example.png" alt="example of obs button config" />
 
 When I press a specific task button, that task updates on the next `/current` call.
 
