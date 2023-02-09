@@ -76,14 +76,27 @@ body {
   margin: 5px 0;
   padding: 20px 0;
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
 }
 
-.task-list li {
+.task-list div.task-item {
+  display: flex;
+  flex-direction: row;
   margin: 0;
   padding: 6px 20px;
 }
 
-.task-list li.active {
-  color: #000;
-  background-color: #fff;
+.task-list div.task-item div.image-div img {
+  width: 30px;
+  height: 30px;
+  padding: 10px;
+}
+
+.task-list div.task-item div.image-div img.not-done {
+  content: url("/images/unchecked.png");
+}
+
+.task-list div.task-item div.image-div img.done {
+  content: url("/images/checked.png");
 }

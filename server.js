@@ -2,7 +2,6 @@
 var express = require('express');
 var app = express();
 var path = require('path');
-var step = 1;
 var fs = require('fs');
 
 // Load in the config.
@@ -18,13 +17,25 @@ app.get('/', function(req, res){
 });
 
 // Respond to requests for /current with current step.
-app.get('/current', function(req, res){
-    res.send(String(step));
+app.get('/update', function(req, res){
+    res.send(config.task_list_items);
 });
 
 // Respond to requests for /config with current config.
 app.get('/config', function(req, res){
     res.send(config);
+});
+
+app.get('/task-toggle', function(req, res){
+    // Access the provided 'page' and 'limt' query parameters
+    let itemIndex = req.query.item;
+    let itemToUpdate = config.task_list_items[itemIndex];
+    if (itemToUpdate.status == "not-done") {
+        itemToUpdate.status = "done";
+    } else {
+        itemToUpdate.status = "not-done";
+    }
+    res.send("success");
 });
 
 // Allow incrementing or decrementing the step via /up or /down.
