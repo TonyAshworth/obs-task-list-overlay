@@ -12,13 +12,7 @@ let config = JSON.parse(rawconfig);
 app.use(express.static("public"));
 
 function getTaskList() {
-  if (config.mode == "dmz") {
-    return config.dmz_task_list_items;
-  } else if (config.mode == "codmp") {
-    return config.codmp_task_list_items;
-  } else if (config.mode == "gta") {
-    return config.gta_task_list_items;
-  }
+  return config.task_lists[config.task_list_selected];
 }
 
 // Respond to requests for / with index.html.
@@ -37,7 +31,7 @@ app.get("/config", function (req, res) {
 });
 
 app.get("/mode-switch", function (req, res) {
-  config.mode = req.query.mode;
+  config.task_list_selected = req.query.mode;
 });
 
 app.get("/task-toggle", function (req, res) {

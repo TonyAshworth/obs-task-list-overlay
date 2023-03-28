@@ -11,14 +11,8 @@ function load_config() {
     // Set up the item list.
     $("ul.task-list").empty();
 
-    if (data.mode === "dmz") {
-      items = data.dmz_task_list_items;
-    } else if (data.mode === "codmp") {
-      items = data.codmp_task_list_items;
-    } else if (data.mode === "gta") {
-      items = data.gta_task_list_items
-    }
-    
+    items = data.task_lists[data.task_list_selected];
+
     for (x in items) {
       var wrapperdiv = document.createElement("div");
       var imgdiv = document.createElement("div");
