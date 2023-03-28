@@ -4,13 +4,21 @@ var refresh_delay = 1000;
 function load_config() {
   $.get(window.location.href + "config", function (data) {
     // Set the title.
-    $(".title-wrapper .left span").text(data.task_list_title);
+    // $(".title-wrapper .left span").text(data.task_list_title);
     // Set the title width.
     $(".title-wrapper .left").width(data.task_list_title_width);
 
     // Set up the item list.
     $("ul.task-list").empty();
-    items = data.task_list_items;
+
+    if (data.mode === "dmz") {
+      items = data.dmz_task_list_items;
+    } else if (data.mode === "codmp") {
+      items = data.codmp_task_list_items;
+    } else if (data.mode === "gta") {
+      items = data.gta_task_list_items
+    }
+    
     for (x in items) {
       var wrapperdiv = document.createElement("div");
       var imgdiv = document.createElement("div");
@@ -36,7 +44,12 @@ function load_config() {
 function update_active_step() {
   $.get(window.location.href + "update", function (data) {
     jQuery.each(data, function (index, item) {
-      var img = $(".task-list div.task-item").eq(index).find("img")[0];
+      var itemDiv = $(".task-list div.task-item").eq(index);
+      var span = itemDiv.find("span")[0];
+      var img = itemDiv.find("img")[0];
+      if (span.textContent !== item.text) {
+        span.textContent = item.text;
+      }
       if (!$(img).hasClass(item.status)) {
         img.classList.toggle("done");
         img.classList.toggle("not-done");

@@ -15,7 +15,6 @@ body {
 .left, .right {
   position: relative;
   height: 70px;
-  width: 350px;
   background-color: #bc1142;
   float: left;
   font-size: 55px;
@@ -45,7 +44,6 @@ body {
 
 .right {
   margin-left: 60px;
-  width: 125px;
   color: #bc1142;
   background-color: #fff;
 }
@@ -67,14 +65,13 @@ body {
 
 /* Styles for the task list */
 .task-list-wrapper {
-  background-color: rgba(0, 0, 0, 0.5);
-  margin: 2px 0 20px;
-  width: 320px;
+  margin: 2px 0 10px;
+  width: fit-content;
 }
 
 .task-list {
   margin: 5px 0;
-  padding: 20px 0;
+  padding: 0 0;
   list-style-type: none;
   display: flex;
   flex-direction: column;
@@ -85,6 +82,25 @@ body {
   flex-direction: row;
   margin: 0;
   padding: 6px 20px;
+}
+
+.task-list div.task-item div.span-div:before {
+  content: '';
+  display: inline-block;
+  height: 100%;
+  vertical-align: middle;
+  margin-right: -0.25em;
+}
+
+.task-list div.task-item div.span-div {
+  text-align: left;
+  margin-left: 10px;
+}
+
+.task-list div.task-item div.span-div span {
+  display: inline-block;
+  vertical-align: middle;
+  width: 400px;
 }
 
 .task-list div.task-item div.image-div img {
